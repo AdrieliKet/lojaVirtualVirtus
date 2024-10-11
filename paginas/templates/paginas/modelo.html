@@ -1,0 +1,165 @@
+{% load static %}
+
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        {% block title %}
+        Loja
+        {% endblock %}
+    </title>
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/modelo.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    {% block menu %}
+    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="/sobre">Virtus</a>
+
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <input class="form-control form-control-dark rounded-0 border-0" type="text" placeholder="Search"
+            aria-label="Search">
+
+        <div class="navbar-nav custom-margin">
+            {% if not request.user.is_authenticated %}
+            <div class="nav-item text-nowrap">
+                <a class="nav-link px-3" href="{% url 'login' %}">Login</a>
+                {% else %}
+                <div class="nav-item text-nowrap dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        {{ request.user.username }}
+                    </button>
+                    <ul class="dropdown-menu p-0 position-absolute" style="min-width: unset;">
+                        <li><a class="btn btn-secondary w-100 text-start" href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            {% if request.user.is_authenticated %}
+            <nav id="sidebarMenu" class="col-12 col-sm-3 col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky pt-3 sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{% url 'listar-empresa' %}">
+                                <span data-feather="empresa" class="align-text-bottom"></span>
+                                Empresa
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listar-categoria' %}">
+                                <span data-feather="categoria" class="align-text-bottom"></span>
+                                Categoria
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listar-subcategoria' %}">
+                                <span data-feather="subcategoria" class="align-text-bottom"></span>
+                                Subcategoria
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listar-promocao' %}">
+                                <span data-feather="promocao" class="align-text-bottom"></span>
+                                Promoção
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listar-produto' %}">
+                                <span data-feather="produto" class="align-text-bottom"></span>
+                                Produto
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listar-venda' %}">
+                                <span data-feather="venda" class="align-text-bottom"></span>
+                                Venda
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'sobre' %}">
+                                <span data-feather="venda" class="align-text-bottom"></span>
+                                Sobre
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            {% endif %}
+            {% endblock %}
+
+            <main class="col-12 {% if request.user.is_authenticated %}col-sm-9 col-md-9 col-lg-10{% endif %} px-4">
+                {% if request.user.is_authenticated %}
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                            <span data-feather="calendar" class="align-text-bottom"></span>
+                            This week
+                        </button>
+                    </div>
+                </div>
+                <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+                {% else %}
+                <div class="d-flex justify-content-center align-items-center vh-100">
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <h2 class="text-center mb-4 mt-4">Login</h2>
+                        <div class="card p-4 shadow">
+                            <form method="post" action="{% url 'login' %}">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Usuário</label>
+                                    <input type="text" class="form-control" id="username" name="username" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Senha</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </main>
+        </div>
+    </div>
+
+    <footer style="min-height: 50px; text-align: center;">
+        {% block rodape %}
+        <hr>
+        <span style="display: block;">Virtu.s ~ Painel Administrativo ~</span>
+        <span style="display: block;"> Desenvolvido por Adrieli Kethin dos Santos </span>
+        {% endblock %}
+    </footer>
+
+    {% block scripts %}
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    {% endblock %}
+</body>
+
+</html>

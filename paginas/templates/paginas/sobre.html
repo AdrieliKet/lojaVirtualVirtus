@@ -1,0 +1,32 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+<div class="row justify-content-center align-items-center mt-3">
+    <div class="col-md-12">
+        <h4 class="text-left" style="color:gray;">Sobre</h6>
+    </div>
+</div>
+
+<hr>
+
+<div>
+    <p>O Virtus é um painel administrativo de um sistema de gerenciamento de locações de decorações para diversos tipos
+        de eventos, incluindo festas
+        infantis, casamentos, formaturas e outras celebrações. </p>
+    <p>O sistema oferece um painel que proporciona uma experiência otimizada de planejamento e organização
+        de festas. O Virtus visa facilitar o trabalho da proprietária, auxiliando no planejamento detalhado da montagem
+        das festas. Nossa visão é nos tornarmos a principal ferramenta de gerenciamento de aluguéis, reduzindo
+        significativamente o tempo gasto em tarefas manuais. </p>
+    <p>Com o painel administrativo do Virtus, a organização de agendamentos se torna mais eficiente. Além disso, o
+        sistema permite o cadastro de produtos e promoções no catálogo, garantindo um gerenciamento abrangente e
+        integrado das locações.</p>
+
+    <img src="{% static 'assets/UML.png' %}" alt="Diagrama de Classes" width="1200px" height="1000px">
+
+    <img src="{% static 'assets/DCU.png' %}" alt="Diagrama de Caso de Uso" width="1000px" height="800px">
+</div>
+
+
+{% endblock %}
